@@ -2,6 +2,9 @@ require 'ruboto/widget'
 require 'ruboto/util/toast'
 
 ruboto_import_widgets :Button, :LinearLayout, :TextView, :ImageView
+%w{Animation RotateAnimation LinearInterpolator}.each do |_clazz|
+  java_import "android.view.animation.#{_clazz}"
+end
 
 
 class MandalaActivity
@@ -23,6 +26,13 @@ class MandalaActivity
                    :weight= => 1,
                    :height= => :fill_parent,
                    :width= => :fill_parent}
+
+      @animation = RotateAnimation.new(0.0, 360.0,  RotateAnimation::RELATIVE_TO_SELF, 0.5, RotateAnimation::RELATIVE_TO_SELF, 0.5)
+      @animation.setInterpolator(LinearInterpolator.new())
+      @animation.setRepeatCount(Animation::INFINITE)
+      @animation.setDuration(700)
+
+      @mandala.startAnimation(@animation);
     end
   rescue Exception
     puts "Exception creating activity: #{$!}"
