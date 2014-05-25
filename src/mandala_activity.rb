@@ -20,7 +20,7 @@ class MandalaActivity
   def onCreate(bundle)
     super
     @index = 0
-    self.content_view = linear_layout id: "@+id/mainView" do
+    self.content_view = linear_layout do
       @mandala = image_view :image_resource => @@mandalas[@index],
                  :scale_type => ImageView::ScaleType::FIT_CENTER,
                  :on_click_listener => proc{|v| show_next_mandala(v)},
@@ -46,6 +46,6 @@ class MandalaActivity
     @mandala.image_resource = @index < @@mandalas.size ? @@mandalas[@index += 1] : @@mandalas[@index = 0]
   end
   def change_mandala_speed v,event
-    android.util.Log.i "touch eventt from mandala", ">> #{v} => #{event}"
+    @animation.setDuration(event.x)
   end
 end
