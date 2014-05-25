@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <manifest package='ideia.me.mandala' android:versionCode='1' android:versionName='1.0' xmlns:android='http://schemas.android.com/apk/res/android'>
     <application android:hardwareAccelerated='true' android:icon='@drawable/ic_launcher' android:label='@string/app_name' android:largeHeap='true'>
-        <activity android:label='@string/app_name' android:name='MandalaActivity'>
+      <uses-permission android:name='android.permission.WRITE_EXTERNAL_STORAGE' />
+
+      <activity android:label='@string/app_name' android:name='MandalaActivity' android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name='android.intent.action.MAIN'/>
                 <category android:name='android.intent.category.LAUNCHER'/>
