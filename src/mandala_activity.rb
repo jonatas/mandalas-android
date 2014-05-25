@@ -33,7 +33,7 @@ class MandalaActivity
       @animation = RotateAnimation.new(0.0, 360.0,  RotateAnimation::RELATIVE_TO_SELF, 0.5, RotateAnimation::RELATIVE_TO_SELF, 0.5)
       @animation.setInterpolator(LinearInterpolator.new())
       @animation.setRepeatCount(Animation::INFINITE)
-      @animation.setDuration(700)
+      @animation.setDuration(500)
 
       @mandala.startAnimation(@animation);
     end
@@ -46,6 +46,7 @@ class MandalaActivity
     @mandala.image_resource = @index < @@mandalas.size ? @@mandalas[@index += 1] : @@mandalas[@index = 0]
   end
   def change_mandala_speed v,event
-    @animation.setDuration(event.x)
+    @animation.setDuration(event.x+event.y*2)
+    toast "#{@animation.duration}ms por ciclo"
   end
 end
