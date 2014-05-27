@@ -51,7 +51,7 @@ public class SplashActivity extends Activity {
         RotateAnimation animation = new RotateAnimation(0f, 360f, RotateAnimation.RELATIVE_TO_SELF,0.5f, RotateAnimation.RELATIVE_TO_SELF,0.5f);
         animation.setInterpolator(new LinearInterpolator());
         animation.setRepeatCount(Animation.INFINITE);
-        animation.setDuration(700);
+        animation.setDuration(10000);
 
          mandala.startAnimation(animation);
 
