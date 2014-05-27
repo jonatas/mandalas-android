@@ -29,9 +29,9 @@ class MandalaActivity
             :width= => :fill_parent}
         
         linear_layout  do
-          button :text => "<<", :on_click_listener => proc{|v| previous_mandala }
+          button :text => "<", :on_click_listener => proc{|v| previous_mandala }
           @velocimeter = button :text => "120 RPM", :on_click_listener => proc{|v| pause_mandala(v) }
-          button :text => ">>", :on_click_listener => proc{|v| next_mandala }
+          button :text => ">", :on_click_listener => proc{|v| next_mandala }
           @acellerator = seek_bar :layout => { :height => :fill_parent, :width => :fill_parent}
         end
 
@@ -57,7 +57,7 @@ class MandalaActivity
   end
   def update_velocimeter
     if not @paused and @animation.duration > 0
-      velocity = 60 * (1.0 / @animation.duration * 1000).to_i
+      velocity = 60 * (1.0 / @animation.duration) * 1000
     else
       velocity = 0
     end
