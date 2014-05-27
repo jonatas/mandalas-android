@@ -57,7 +57,7 @@ class MandalaActivity
   end
   def update_velocimeter
     if not @paused and @animation.duration > 0
-      velocity = 60 * (1.0 / @animation.duration) * 1000
+      velocity = (60 * (1.0 / @animation.duration) * 1000).to_i
     else
       velocity = 0
     end
