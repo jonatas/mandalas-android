@@ -42,7 +42,7 @@ class MandalaActivity
         update_velocimeter
         @acellerator.setOnSeekBarChangeListener SeekBar::OnSeekBarChangeListener.impl { |event, seek_bar, progress|
           if event  == :onProgressChanged
-            duration = (100 - progress ) * 25
+            duration = (100 - progress ) * 5
             @animation.setDuration(duration)
             update_velocimeter
           end
