@@ -28,10 +28,10 @@ class MandalaActivity
             :height= => :fill_parent,
             :width= => :fill_parent}
         
-        linear_layout do
-          button :text => "<", :on_click_listener => proc{|v| previous_mandala }
-          button :text => "=", :on_click_listener => proc{|v| pause_mandala(v) }
-          button :text => ">", :on_click_listener => proc{|v| next_mandala }
+        linear_layout  do
+          button :text => "<<", :on_click_listener => proc{|v| previous_mandala }
+          @velocimeter = button :text => "120 RPM", :on_click_listener => proc{|v| pause_mandala(v) }
+          button :text => ">>", :on_click_listener => proc{|v| next_mandala }
           @acellerator = seek_bar :layout => { :height => :fill_parent, :width => :fill_parent}
         end
 
@@ -39,10 +39,12 @@ class MandalaActivity
         @animation.setInterpolator LinearInterpolator.new()
         @animation.setRepeatCount Animation::INFINITE
         @animation.setDuration 500
+        update_velocimeter
         @acellerator.setOnSeekBarChangeListener SeekBar::OnSeekBarChangeListener.impl { |event, seek_bar, progress|
           if event  == :onProgressChanged
-            velocity = (100 - progress ) * 10
-            @animation.setDuration(velocity)
+            duration = (100 - progress ) * 25
+            @animation.setDuration(duration)
+            update_velocimeter
           end
         }
 
@@ -53,6 +55,14 @@ class MandalaActivity
     puts "Exception creating activity: #{$!}"
     puts $!.backtrace.join("\n")
   end
+  def update_velocimeter
+    if not @paused and @animation.duration > 0
+      velocity = 60 * (1.0 / @animation.duration * 1000).to_i
+    else
+      velocity = 0
+    end
+    @velocimeter.text = "#{velocity} RPM"
+  end
   def next_mandala
     if @index < @@mandalas.size
       @mandala.image_resource =  @@mandalas[@index += 1]
@@ -61,12 +71,14 @@ class MandalaActivity
     end
   end
   def pause_mandala v
-    if v.text == "="
-      v.text = "o"
+    if not @paused
+      @paused = true
       @mandala.clearAnimation
+      update_velocimeter
     else
-      v.text = "="
+      @paused = false
       @mandala.startAnimation @animation
+      update_velocimeter
     end
   end
   def previous_mandala
