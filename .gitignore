@@ -6,7 +6,6 @@ bin
 gen
 local.properties
 tmp
-=======
 # Built application files
 *.apk
 *.ap_
