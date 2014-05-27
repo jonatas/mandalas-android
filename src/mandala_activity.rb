@@ -6,7 +6,6 @@ ruboto_import_widgets :Button, :LinearLayout, :TextView, :ImageView, :SeekBar
   java_import "android.view.animation.#{_clazz}"
 end
 
-
 class MandalaActivity
   @@mandalas = [
     $package::R.drawable.mandala_1_01b, $package::R.drawable.mandala_1_02b, $package::R.drawable.mandala_1_03b, $package::R.drawable.mandala_1_04b,
@@ -24,8 +23,6 @@ class MandalaActivity
       linear_layout :orientation => :vertical do
         @mandala = image_view :image_resource => @@mandalas[@index],
           :scale_type => ImageView::ScaleType::FIT_CENTER,
-#          :on_touch_listener => proc{|view, motion_event|change_mandala_speed(view,motion_event)},
-          :on_click_listener => proc{|v| pause_mandala(v) },
           :layout => {
             :weight= => 1,
             :height= => :fill_parent,
@@ -35,14 +32,19 @@ class MandalaActivity
           button :text => "<", :on_click_listener => proc{|v| previous_mandala }
           button :text => "=", :on_click_listener => proc{|v| pause_mandala(v) }
           button :text => ">", :on_click_listener => proc{|v| next_mandala }
-          seek_bar :on_seek_bar_change => proc{|view, progress_changed| change_mandala_speed(view, progress_changed)},
-            :layout => { :height => :fill_parent, :width => :fill_parent}
+          @acellerator = seek_bar :layout => { :height => :fill_parent, :width => :fill_parent}
         end
 
         @animation = RotateAnimation.new(0.0, 360.0,  RotateAnimation::RELATIVE_TO_SELF, 0.5, RotateAnimation::RELATIVE_TO_SELF, 0.5)
         @animation.setInterpolator LinearInterpolator.new()
         @animation.setRepeatCount Animation::INFINITE
         @animation.setDuration 500
+        @acellerator.setOnSeekBarChangeListener SeekBar::OnSeekBarChangeListener.impl { |event, seek_bar, progress|
+          if event  == :onProgressChanged
+            velocity = (100 - progress ) * 10
+            @animation.setDuration(velocity)
+          end
+        }
 
         @mandala.startAnimation @animation
       end
@@ -75,8 +77,8 @@ class MandalaActivity
         @@mandalas[@index = @@mandalas.size - 1]
       end
   end
-  def change_mandala_speed v,event
-    android.util.Log.info "change mandala speed",event.to_s
-    @animation.setDuration(event.progress / 1000)
+
+  def log message
+    android.util.Log.i "MandalaActivity", message.to_s
   end
 end

@@ -17,6 +17,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +46,15 @@ public class SplashActivity extends Activity {
             initJRuby(true);
         }
         super.onCreate(bundle);
+
+        ImageView mandala = (ImageView)findViewById(ideia.me.mandala.R.id.mandala_splash);
+        RotateAnimation animation = new RotateAnimation(0f, 360f, RotateAnimation.RELATIVE_TO_SELF,0.5f, RotateAnimation.RELATIVE_TO_SELF,0.5f);
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(Animation.INFINITE);
+        animation.setDuration(700);
+
+         mandala.startAnimation(animation);
+
     }
 
     public void onResume() {
