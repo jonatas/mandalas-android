@@ -47,6 +47,7 @@ class MandalaActivity
             update_velocimeter
           end
         }
+        @acellerator.progress = 1
 
         @mandala.startAnimation @animation
       end
